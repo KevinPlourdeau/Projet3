@@ -1,91 +1,112 @@
-// Permet l'ecriture en gras du lien Login lorsqu'on se trouve sur la page login.html
-function boldLoginLink() {
-    const navLinks = document.querySelectorAll("nav ul li a");
-    const currentURL = window.location.href;
-
-    // Sélectionne uniquement le lien vers "login" si c'est la page actuelle
-    const loginLink = Array.from(navLinks).find(link => link.href === currentURL);
+/**** Functions *****/
+// Fonction: Bold "Login" sur la page login.html 
+function boldLoginNav() {
     
-    if (loginLink) {
-        loginLink.classList.add("active-login");
+    const currentPage = window.location.pathname;
+    const loginNavLink = document.querySelector('nav a[href="login.html"]');
+
+    if (currentPage.includes("login.html")) {
+        loginNavLink;
+        if (loginNavLink) {
+            loginNavLink.classList.add("active-login");
+        }
     }
 }
 
-// Récupere les valeurs dans le formulaire soumis
-function getFormData(event) {
-    event.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+// Récupere les valeurs du formulaire
+function getFormValues(form) {
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
     return { email, password };
 }
 
-// Envoie les données récuperé à l'API
-async function sendLoginRequest(email, password) {
-    try {
-        const response = await fetch(apiUrlLogin, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        });
+// Valide les deux champs avant d'envoyer la requete
+function validateForm(email, password) {
+    if (!email || !password) {
+        return { isValid: false, message: "Veuillez remplir tous les champs." };
+    }
+    return { isValid: true };
+}
 
-        if (response.ok) {
-            const data = await response.json();
-            return { success: true, token: data.token };
-        } else {
-            return { success: false, message: "Email ou mot de passe incorrect." };
-        }
-    } catch (error) {
-        console.error("Erreur:", error);
-        return { success: false, message: "Une erreur est survenue. Veuillez réessayer." };
+// Envoie les données récuperé à l'API
+async function sendLoginFormToApi(email, password) {
+    const response = await fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        return { success: true, token: data.token };
+    } else {
+        return { success: false, message: "Email ou mot de passe incorrect." };
     }
 }
 
 // Affiche les erreurs dans le DOM
 function showErrorMessageLogin(message) {
     const errorContainer = document.getElementById("error-message");
-    errorContainer.textContent = message;
-    errorContainer.style.display = "block";
 
-    setTimeout(() => {
-        errorContainer.style.display = "none";
-    }, 5000);
-}
-
-// Valide les deux champs avant d'envoyer la requete
-function validateForm(email, password) {
-    if (!email || !password) {
-        showErrorMessageLogin("Veuillez remplir tous les champs.");
-        return false;
+    if (errorContainer) {
+        errorContainer.textContent = message;
+        errorContainer.style.display = "block";
     }
-    return true;
 }
 
-// Gère le stockage du token et redirige l'utilisateur si connexion réussie
-function manageSuccessfulLogin(token) {
-    if (token) {
-        // Stockage du token dans le localStorage
+// Stock le token
+function storeToken(token) {
+    if(token) {
         window.localStorage.setItem("token", token);
-        window.location.href = "index.html"; 
-    } else {
-        showErrorMessageLogin("Une erreur est survenue. Aucun token reçu.");
     }
 }
 
-// Initialisation des différentes fonctions 
-function initLoginProcess() {
-    const loginForm = document.getElementById("login-form");
-
-    loginForm.addEventListener("submit", async (event) => {
-        const { email, password } = getFormData(event); 
-
-        if (!validateForm(email, password)) return;
-
-        const result = await sendLoginRequest(email, password); 
-
-        if (result.success) {
-            manageSuccessfulLogin(result.token);
-        } else {
-            showErrorMessageLogin(result.message); 
-        }
-    });
+// Redirige sur la page index.html
+function redirectIndexPage() {
+    window.location.href = "index.html"
 }
+
+
+/**** Fonction Main *****/
+async function mainLogin() {
+    try {
+        // Login en gras; fonction : ligne 3
+        boldLoginNav();
+
+        // Empêche le rechargement de la page
+        const form = document.querySelector("form");
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            // Récupère les valeurs du formulaire; fonction : ligne 17
+            const { email, password } = getFormValues(event.target);
+
+            // Valide les champs du formulaire et l'arrete si erreur; fonctions : ligne 24 / 48
+            const validate = validateForm(email, password);
+            if (!validate.isValid) {
+                showErrorMessageLogin(validate.message);
+                return;
+            }
+
+            // Envoie les données à l'API; fonction : ligne 32
+            const response = await sendLoginFormToApi(email, password);
+
+            // Réponse de l'API + (stocke le token et redirige la page); fonctions : ligne 58 / 64 / 48
+            if (response.success) {
+                storeToken(response.token);
+                redirectIndexPage();
+            } else {
+                showErrorMessageLogin(response.message);
+            }
+        });
+      
+    } catch(error) {
+        console.error("Une erreur s'est produite dans le mainLogin:", error);
+    }
+}
+
+
+/**** Appel Fonction Main *****/
+document.addEventListener("DOMContentLoaded", () => {
+    mainLogin();
+});

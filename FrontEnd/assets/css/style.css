@@ -159,6 +159,7 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 #portfolio h2 {
+	margin: 0.83em;
 	text-align: center;
 	margin-bottom: 1em;
 }
@@ -334,6 +335,12 @@ form input[type="password"] {
 	justify-content: center;
 }
 
+.fa-pen-to-square {
+	height: 16px;
+	width: 16px;
+	color: white;
+}
+
 .edit-btn {
 	background-color: transparent;
     color: black;
@@ -344,4 +351,10 @@ form input[type="password"] {
 }
 .edit-btn:hover {
     background-color: #f57c00;
+}
+
+.titre-edit{
+	display: flex;
+	justify-content: center;
+	gap: 32px;
 }
