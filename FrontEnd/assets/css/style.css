@@ -48,38 +48,38 @@ table {
 }
 /** end reset css**/
 body {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	max-width: 1440px;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*modifier*/ min-height: 100vh; /* remplacé max-width par min-height */
+	/*modifier*/ max-width: 1440px; /* modifié de 1140px à 1440px */
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-	background: #FFFEF8;
+	/*ajout*/ background: #FFFEF8;
 }
 
 main {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*ajout*/ flex-grow: 1;
 }
 
 header {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	margin: 50px 10%;
+	/*ajout*/ align-items: center; 
+	/*modifier*/ margin: 50px 10%; /* remplacé par 50px 0 */
 }
 
 footer {
-	display: flex;
-	align-items: center;
-	justify-content: right;
-	background-color: white;
+	/*ajout*/ display: flex;
+	/*ajout*/ align-items: center;
+	/*ajout*/ justify-content: right;
+	/*ajout*/ background-color: white;
 }
 
 section {
-	margin: 50px 10%;
+	/*modifier*/ margin: 50px 10%; /* remplacé par 50px 0 */
 }
 
 h1{
@@ -95,7 +95,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -108,7 +107,6 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
 nav li {
 	padding: 0 10px;
@@ -116,20 +114,20 @@ nav li {
 }
 
 li a {
-	text-decoration: none;
-	color: black;
+	/*ajout*/ text-decoration: none; 
+	/*ajout*/ color: black;
 }
 
-li a.active-login{
-	font-weight: bold;
+li a.active-login {
+	/*ajout*/ font-weight: bold;
 }
 
 li img {
-	width: 20px;
+	/*ajout*/ width: 20px;
 }
 
 li a:hover {
-	color: #B1663C;
+	/*ajout*/ color: #B1663C;
 }
 
 li:hover {
@@ -140,7 +138,7 @@ li:hover {
 	align-items: center;
 }
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
 #introduction img {
 	display: block;
@@ -149,7 +147,7 @@ li:hover {
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -159,37 +157,37 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 #portfolio h2 {
-	margin: 0.83em;
+	/*ajout*/ margin: 0.83em;
 	text-align: center;
 	margin-bottom: 1em;
 }
 
 .filters {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 50px;
-	margin-bottom: 40px;
+    /*ajout*/ display: flex;
+    /*ajout*/ justify-content: center;
+    /*ajout*/ gap: 10px;
+    /*ajout*/ margin-top: 50px;
+	/*ajout*/ margin-bottom: 40px;
 }
 
 .filter-btn {
-    padding: 10px 20px;
-    color: #1D6154;
-    background-color: transparent;
-    border: 1px solid #1D6154;
-    border-radius: 60px; 
-    cursor: pointer;
+    /*ajout*/ padding: 10px 20px;
+    /*ajout*/ color: #1D6154;
+    /*ajout*/ background-color: transparent;
+    /*ajout*/ border: 1px solid #1D6154;
+    /*ajout*/ border-radius: 60px; 
+    /*ajout*/ cursor: pointer;
 }
 
 .filter-btn:hover {
-    background-color: #1D6154;
-    color: white;
+    /*ajout*/ background-color: #1D6154;
+    /*ajout*/ color: white;
 }
 
 .filter-btn.active {
-    background-color: #1D6154;
-    color: white;
-    border: 1px solid #1D6154;
+    /*ajout*/ background-color: #1D6154;
+    /*ajout*/ color: white;
+    /*ajout*/ border: 1px solid #1D6154;
 }
 
 .gallery {
@@ -202,25 +200,24 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
 #contact {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*ajout*/ align-items: center;
 	width: 50%;
 	margin: auto;
 }
 #contact > * {
 	text-align: center;
-
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
 #contact form {
-	width: 379px;
-	margin-top:8px;
+	/*ajout*/ width: 379px;
+	/*modifier*/ margin-top: 8px; /* remplacé par 30px */
 	display: flex;
 	flex-direction: column;
 }
@@ -247,114 +244,112 @@ input[type="submit"]{
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
 	border: none;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
 
 /**** Page login *****/ 
 
 #login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	padding-top: 36px;
+    /*ajout*/ display: flex;
+    /*ajout*/ justify-content: center;
+    /*ajout*/ align-items: center;
+	/*ajout*/ padding-top: 36px;
 }
 
 .login {
-    width: 300px;
-    text-align: center;
-	display: flex;
-	flex-direction: column;
-	gap: 32px;
+    /*ajout*/ width: 300px;
+    /*ajout*/ text-align: center;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*ajout*/ gap: 32px;
 }
 
 #error-message {
-	color: red;
-	display: none;
-	margin-bottom: 16px;
+	/*ajout*/ color: red;
+	/*ajout*/ display: none;
+	/*ajout*/ margin-bottom: 16px;
 }
 
 form .log {
-    display: flex;
-    flex-direction: column;
+    /*ajout*/ display: flex;
+    /*ajout*/ flex-direction: column;
 }
 
 form label {
-    text-align: left;
+    /*ajout*/ text-align: left;
 }
 
 form .in {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*ajout*/ gap: 8px;
 }
 
 .input-log {
-	display: flex;
-	flex-direction: column;
-	gap: 32px;
+	/*ajout*/ display: flex;
+	/*ajout*/ flex-direction: column;
+	/*ajout*/ gap: 32px;
 }
 
 form input[type="email"],
 form input[type="password"] {
-    height: 51px;
-	border: none;
-    box-shadow: 0px 4px 14px 0px #00000017;
+    /*ajout*/ height: 51px;
+	/*ajout*/ border: none;
+    /*ajout*/ box-shadow: 0px 4px 14px 0px #00000017;
 }
 
 .login input[type="submit"] {
-	padding: 12px;
+	/*ajout*/ padding: 12px;
 }
 
 .mdp a {
-    color: black;
+    /*ajout*/ color: black;
 }
 
-
-/**** Mode edition *****/
+/**** Mode edition *****//*ajout*/
 
 .edit-mode-banner {
-	text-align: center;
-    background-color: black;
-    color: white;
-	height: 59px;
+	/*ajout*/ text-align: center;
+    /*ajout*/ background-color: black;
+    /*ajout*/ color: white;
+	/*ajout*/ height: 59px;
 }
 
 .edit-mode-banner h2 {
-	align-items: center;
-	color: white;
-	font-size: 16px;
-	height: 100%;
-	display: flex;
-	justify-content: center;
+	/*ajout*/ align-items: center;
+	/*ajout*/ color: white;
+	/*ajout*/ font-size: 16px;
+	/*ajout*/ height: 100%;
+	/*ajout*/ display: flex;
+	/*ajout*/ justify-content: center;
+	/*ajout*/ gap: 8px;
 }
 
-.fa-pen-to-square {
-	height: 16px;
-	width: 16px;
-	color: white;
+.edit-btn .fa-pen-to-square {
+	/*ajout*/ color: black;
+	/*ajout*/ margin-right: 8px;
 }
 
 .edit-btn {
-	background-color: transparent;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-}
-.edit-btn:hover {
-    background-color: #f57c00;
+	/*ajout*/ background-color: transparent;
+	/*ajout*/ color: black;
+    /*ajout*/ border: none;
+    /*ajout*/ cursor: pointer;
+    /*ajout*/ font-size: 16px;
 }
 
-.titre-edit{
-	display: flex;
-	justify-content: center;
-	gap: 32px;
+.edit-btn:hover {
+    /*ajout*/ color: #B1663C;
+}
+
+.titre-edit {
+	/*ajout*/ display: flex;
+    /*ajout*/ justify-content: center;
 }

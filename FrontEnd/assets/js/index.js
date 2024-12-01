@@ -154,18 +154,31 @@ function toggleLoginLogout() {
     }
 }
 
-// afficher le bandeau "mode edition"
+// Afficher le bandeau "mode edition"
 function displayEditModeBanner() {
     const editModeBanner = document.getElementById("edit-mode-banner");
     if (editModeBanner) {
         editModeBanner.style.display = "block";
     }
 }
+function hideEditModeBanner() {
+    const editModeBanner = document.getElementById("edit-mode-banner");
+    if (editModeBanner) {
+        editModeBanner.style.display = "none";
+    }
+}
 
+// Afficher le bouton modifié
 function displayEditButton() {
     const editProjectButton = document.getElementById("edit-project-btn");
     if (editProjectButton) {
         editProjectButton.style.display = "block";
+    }
+}
+function hideEditButton() {
+    const editProjectButton = document.getElementById("edit-project-btn");
+    if (editProjectButton) {
+        editProjectButton.style.display = "none";
     }
 }
 
@@ -216,6 +229,12 @@ async function main() {
         } else {
              // Affiche les filtres des categories
             displayCategoryFilters(categoriesData);
+
+            // Cache le mode edition
+            hideEditModeBanner();
+
+            // Cache le bouton modifier
+            hideEditButton();
 
             // Filtres fonctionnels 
             addFilterEventListeners(worksData);
