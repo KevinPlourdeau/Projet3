@@ -161,6 +161,7 @@ function displayEditModeBanner() {
         editModeBanner.style.display = "block";
     }
 }
+// Cacher le bandeau "mode edition"
 function hideEditModeBanner() {
     const editModeBanner = document.getElementById("edit-mode-banner");
     if (editModeBanner) {
@@ -170,19 +171,20 @@ function hideEditModeBanner() {
 
 // Afficher le bouton modifié
 function displayEditButton() {
-    const editProjectButton = document.getElementById("edit-project-btn");
-    if (editProjectButton) {
-        editProjectButton.style.display = "block";
+    const editGallery = document.getElementById("edit-gallery");
+    if (editGallery) {
+        editGallery.style.display = "block";
     }
 }
+// Cacher le bouton modifié
 function hideEditButton() {
-    const editProjectButton = document.getElementById("edit-project-btn");
-    if (editProjectButton) {
-        editProjectButton.style.display = "none";
+    const editGallery = document.getElementById("edit-gallery");
+    if (editGallery) {
+        editGallery.style.display = "none";
     }
 }
 
-// Cache les filtres 
+// Cacher les filtres 
 function hideCategoryFilters() {
     const filtersEditionContainer = document.querySelector('.filters');
     if (filtersEditionContainer) {

@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/
+/*http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -61,14 +61,14 @@ body {
 main {
 	/*ajout*/ display: flex;
 	/*ajout*/ flex-direction: column;
-	/*ajout*/ flex-grow: 1;
+	flex-grow: 1;
 }
 
 header {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	/*ajout*/ align-items: center; 
-	/*modifier*/ margin: 50px 10%; /* remplacé par 50px 0 */
+	/*modifier*/ margin: 50px 0px; 
 }
 
 footer {
@@ -107,6 +107,7 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+	gap: 32px;
 }
 nav li {
 	padding: 0 10px;
@@ -143,7 +144,7 @@ li:hover {
 #introduction img {
 	display: block;
 	margin: auto;
-	width: 80%;
+	width: 85%;
 }
 
 #introduction article {
@@ -191,7 +192,8 @@ li:hover {
 }
 
 .gallery {
-	width: 100%;
+	margin: 0 4.5%;
+	width: 91%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -223,7 +225,7 @@ li:hover {
 }
 
 #contact input {
-	height: 50px;
+	height: 36px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -316,40 +318,110 @@ form input[type="password"] {
 /**** Mode edition *****//*ajout*/
 
 .edit-mode-banner {
-	/*ajout*/ text-align: center;
     /*ajout*/ background-color: black;
     /*ajout*/ color: white;
 	/*ajout*/ height: 59px;
 }
 
 .edit-mode-banner h2 {
-	/*ajout*/ align-items: center;
-	/*ajout*/ color: white;
-	/*ajout*/ font-size: 16px;
-	/*ajout*/ height: 100%;
-	/*ajout*/ display: flex;
-	/*ajout*/ justify-content: center;
-	/*ajout*/ gap: 8px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 16px;
+	gap: 8px;
 }
 
-.edit-btn .fa-pen-to-square {
-	/*ajout*/ color: black;
-	/*ajout*/ margin-right: 8px;
-}
-
-.edit-btn {
-	/*ajout*/ background-color: transparent;
-	/*ajout*/ color: black;
-    /*ajout*/ border: none;
-    /*ajout*/ cursor: pointer;
-    /*ajout*/ font-size: 16px;
-}
-
-.edit-btn:hover {
-    /*ajout*/ color: #B1663C;
+.titre-nav {
+	width: 1140px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .titre-edit {
 	/*ajout*/ display: flex;
     /*ajout*/ justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
 }
+
+.js-modal .fa-pen-to-square {
+	/*ajout*/ color: black;
+	/*ajout*/ margin-right: 8px;
+	font-size: 16px;
+}
+
+.js-modal {
+	/*ajout*/ background-color: transparent;
+	/*ajout*/ color: black;
+    /*ajout*/ cursor: pointer;
+
+	/*ajout*/ text-decoration: none;
+}
+
+.js-modal:hover {
+	/*ajout*/ color: #B1663C;
+}
+
+.modal {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-wrapper {
+	border-radius: 10px;
+	overflow: auto;
+	max-width: 630px;
+	padding: 20px;
+	background-color: white;
+}
+
+.js-modal-close {
+	float: inline-end;
+	background-color: transparent;
+	border: none;
+	height: 24px;
+	cursor: pointer;
+}
+
+h1#titlemodal {
+	margin: 50px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 26px;
+    font-family: "Work sans";
+    color: black;
+}
+
+.modal-wrapper .gallery {
+	margin: 0 15%;
+	width: 70%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 10px;
+	grid-row-gap: 30px;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 10%;
+}
+
+#modal input[type="submit"] {
+	margin-top: 9%;
+    display: flex;
+    width: 237px;
+    height: 36px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
