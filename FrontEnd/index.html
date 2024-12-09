@@ -122,9 +122,18 @@
 <aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;"> <!--ajout-->
 	<div class="modal-wrapper js-modal-stop"> <!--ajout-->
 		<button class="js-modal-close"><i class="fa-solid fa-xmark fa-xl"></i></button>
-		<h1 id="titlemodal">Galerie photo</h1>
-		
-		<input type="submit" value="Ajouter une photo"><div class="line-modal"></div>
+		<!--Première vue-->
+		<div class="js-modal-gallery">
+			<h1 id="titlemodal">Galerie photo</h1>
+			
+			<input type="submit" value="Ajouter une photo">
+		</div>
+		<!--Seconde vue-->
+		<div class="js-modal-add-photo">
+			<button class="js-modal-return"><i class="fa-solid fa-arrow-left fa-xl"></i></button>
+			<h1 id="titlemodal">Ajout photo</h1>
+
+		</div> 
 	</div>
 </aside>
 </body>

@@ -225,7 +225,7 @@ li:hover {
 }
 
 #contact input {
-	height: 36px;
+	height: 49px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -380,7 +380,7 @@ form input[type="password"] {
 .modal-wrapper {
 	border-radius: 10px;
 	overflow: auto;
-	max-width: 630px;
+	width: 630px;
 	padding: 20px;
 	background-color: white;
 }
@@ -445,7 +445,6 @@ figure {
 }
 
 #modal input[type="submit"] {
-	margin-top: 9%;
     display: flex;
     width: 237px;
     height: 36px;
@@ -454,3 +453,110 @@ figure {
     cursor: pointer;
 }
 
+.js-modal-add-photo {
+	display: none;
+}
+
+.js-modal-return{
+	border: none;
+	background: transparent;
+}
+
+.photo-upload-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.add-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 420px;
+    height: 169px;
+    border: none;
+    border-radius: 10px;
+    background-color: #E8F1F6;
+    text-align: center;
+    color: #6b7280;
+}
+.add-photo-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #6b7280;
+	gap: 10px;
+}
+.add-photo-label p {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 173px;
+	height: 36px;
+    font-size: 14px;
+	color: #306685;
+	border-radius: 50px;
+	background-color: #9ca3af; 
+}
+.add-photo-label i {
+    font-size: 76px;
+    color: #9ca3af;
+}
+.add-photo-label small {
+    font-size: 10px;
+    color: #444444;
+}
+.add-photo input[type="file"] {
+    display: none;
+}
+
+.input-label-title {
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+	gap: 8px;
+	margin-top: 32px;
+}
+.input-label-title input {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	padding-left: 12px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: 'Work Sans';
+	font-size: 14px;
+}
+
+.select-label-category {
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+	gap: 8px;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 50px;
+	margin-top: 16px;
+}
+.select-label-category select {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	padding-left: 7px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: 'Work Sans';
+	font-size: 14px;
+}
+
+.btn-validate-form {
+	margin-top: 0;
+}
+
+.btn-validate-form:disabled {
+    background-color: #ccc; /* Couleur de fond grise */
+	cursor: none;
+}
