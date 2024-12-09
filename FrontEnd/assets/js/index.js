@@ -2,12 +2,7 @@
 // Fonction API fetch pour récupérer les images dans le fichier "Works" 
 async function fetchWorks() {
     const res = await fetch("http://localhost:5678/api/works");
-    if (!res.ok) {
-        throw new Error("Erreur sur la récupération des travaux");
-    }
-    
-    const worksData = await res.json();
-    return worksData;
+    return await res.json();
 }
 
 // Affiche la gallerie se trouvant sur l'Api Url "/works"
@@ -39,12 +34,7 @@ function clearGalleryHTML() {
 // Fonction API fetch pour récupérer les différentes categories dans le fichier "categories"
 async function fetchCategories() {
     const res = await fetch("http://localhost:5678/api/categories");
-    if (!res.ok) {
-        throw new Error("Erreur lors de la récupération des catégories");
-    }
-
-    const categoriesData = await res.json();
-    return categoriesData;
+    return await res.json();
 }
 
 // Affiche les différents filtres se trouvant sur l'Api Url "/categories"
@@ -193,6 +183,15 @@ function hideCategoryFilters() {
 }
 
 
+/**** Fonction Refresh *****/
+// Utilisé dans modale.js initializeDeleteEvents(worksData)
+async function refresh() {
+    // Récupère les données "works" et met à jour la galerie
+    const worksData = await fetchWorks();
+    clearGalleryHTML();
+    displayGallery(worksData);
+}
+
 
 /**** Fonction Main *****/
 async function main() {
@@ -204,7 +203,7 @@ async function main() {
         // login --> logout
         toggleLoginLogout()
 
-        // enleve le token en cliquant sur logout
+        // Enleve le token en cliquant sur logout
         LogoutEventListener()
 
         // Recupere les donnees "works"
@@ -244,6 +243,8 @@ async function main() {
             // Gere l'etat actif de chaque boutons
             handleActiveFilterButtons()
         }
+
+        await refresh();
     } catch(error) {
         console.error('Erreur dans la fonction main:', error);
     }

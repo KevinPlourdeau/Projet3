@@ -81,6 +81,22 @@ function initializeModalEvents() {
     });
 }
 
+// Gere la suppression des Projets et refresh la galerie
+function initializeDeleteEvents(worksData) {
+    const deleteButtons = document.querySelectorAll(".delete-icon");
+    deleteButtons.forEach((button, index) => {
+        const workId = worksData[index].id;
+        const figureElement = button.closest("figure");
+        button.addEventListener("click", () => {
+            if (warnImgSupp()) {
+                handleDelete(workId, figureElement);
+                // fonction refresh() dans le fichier login.js
+                refresh(); 
+            }
+        });
+    });
+}
+
 // Gere la fermeture via clavier
 function initializeKeyboardEvents() {
     window.addEventListener("keydown", event => {
@@ -117,6 +133,12 @@ function closeModal(modalElement) {
     modalElement.querySelector(".js-modal-stop").removeEventListener("click", event => event.stopPropagation());
 }
 
+
+// Popup pour confirmer la suppression d'un projet
+function warnImgSupp() {
+    return window.confirm("Attention, vous allez supprimer une image de la galerie photo. Voulez-vous continuer ?");
+}
+
 // Génère une galerie pour la modale
 function displayGalleryModal(worksData) {
     const gallery = document.createElement("div");
@@ -125,17 +147,23 @@ function displayGalleryModal(worksData) {
     worksData.forEach(work => {
         const figure = document.createElement("figure");
         const img = document.createElement("img");
+        const deleteIcon = document.createElement("button");
 
         img.src = work.imageUrl;
         img.alt = work.title;
 
+        deleteIcon.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
+        deleteIcon.classList.add("delete-icon");
+
         figure.appendChild(img);
+        figure.appendChild(deleteIcon);
         gallery.appendChild(figure);
     });
 
     return gallery;
 }
 
+// Permet d'afficher la galerie dans la modale
 function injectGalleryToModal(modalWrapper, worksData) {
     modalWrapper.querySelector(".modal-column");
     modalWrapper.querySelector(".gallery");
@@ -145,9 +173,33 @@ function injectGalleryToModal(modalWrapper, worksData) {
 }
 
 
+// Permet la suppression du projet côté serveur puis sur le DOM si c'est réussi
+async function handleDelete(workId, figureElement) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        console.error("Token non disponible. Veuillez vous connecter.");
+        return;
+    }
+    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}` // Ajoutez le token dans l'en-tête
+        }
+    });
+
+    if (response.ok) {
+        figureElement.remove();
+        console.log(`L'image avec l'ID ${workId} a été supprimée.`);
+    } else {
+        console.error("Échec de la suppression de l'image :", response.statusText);
+    }
+}
+
+
 /**** Fonction Main *****/
 async function mainModal() {
     try {
+
         initializeModalEvents();
         initializeKeyboardEvents();
 
@@ -159,6 +211,9 @@ async function mainModal() {
         if (modalElement) {
             const modalWrapper = modalElement.querySelector(".modal-wrapper");
             injectGalleryToModal(modalWrapper, worksData);
+
+            // Initialise les événements des boutons poubelles
+            initializeDeleteEvents(worksData);
         }
     } catch (error) {
         console.error("Erreur dans la fonction mainModal :", error);
