@@ -558,5 +558,4 @@ figure {
 
 .btn-validate-form:disabled {
     background-color: #ccc; /* Couleur de fond grise */
-	cursor: none;
 }

@@ -121,7 +121,6 @@ function openModal(modalElement) {
     modalElement.querySelector(".js-modal-close").addEventListener("click", () => closeModal(modalElement));
     modalElement.querySelector(".js-modal-stop").addEventListener("click", event => event.stopPropagation());
 }
-
 // Ferme le modal
 function closeModal(modalElement) {
     modalElement.style.display = "none";
@@ -133,6 +132,7 @@ function closeModal(modalElement) {
     modalElement.querySelector(".js-modal-close").removeEventListener("click", () => closeModal(modalElement));
     modalElement.querySelector(".js-modal-stop").removeEventListener("click", event => event.stopPropagation());
 }
+
 
 // Génère une galerie pour la modale
 function displayGalleryModal(worksData) {
@@ -157,7 +157,6 @@ function displayGalleryModal(worksData) {
 
     return gallery;
 }
-
 // Permet d'afficher la galerie dans la modale
 function injectGalleryToModal(modalWrapper, worksData) {
     modalWrapper.querySelector(".gallery");
@@ -165,7 +164,6 @@ function injectGalleryToModal(modalWrapper, worksData) {
     const newGallery = displayGalleryModal(worksData);
     modalWrapper.insertBefore(newGallery, modalWrapper.querySelector("input[type='submit']"));
 }
-
 // Permet la suppression du projet côté serveur puis sur le DOM si c'est réussi
 async function handleDelete(workId, figureElement) {
     const token = localStorage.getItem("token");
@@ -187,7 +185,6 @@ async function handleDelete(workId, figureElement) {
         console.error("Échec de la suppression de l'image :", response.statusText);
     }
 }
-
 // Popup pour confirmer la suppression d'un projet
 function warnImgSupp() {
     return window.confirm("Attention, vous allez supprimer une image de la galerie photo. Voulez-vous continuer ?");
@@ -212,7 +209,6 @@ function initializeViewSwitching() {
         showGalleryView();
     });
 }
-
 // Affiche la seconde vue
 function showAddPhotoView() {
     const galleryView = document.querySelector(".js-modal-gallery");
@@ -221,7 +217,6 @@ function showAddPhotoView() {
     galleryView.style.display = "none";
     addPhotoView.style.display = "block";
 }
-
 // Affiche la première vue
 function showGalleryView() {
     const galleryView = document.querySelector(".js-modal-gallery");
@@ -230,6 +225,7 @@ function showGalleryView() {
     galleryView.style.display = "block";
     addPhotoView.style.display = "none";
 }
+
 
 // Génère une galerie pour la modale
 function displayFormUploadPhotoModal(categoriesData) {
@@ -259,6 +255,9 @@ function displayFormUploadPhotoModal(categoriesData) {
 
     addPhoto.appendChild(labelFile);
     addPhoto.appendChild(inputFile);
+
+     // Configure l'aperçu de l'image
+     setupImagePreview(inputFile);
 
     // Div pour input/label pour le titre
     const inputLabelTitle = document.createElement("div");
@@ -326,7 +325,36 @@ function displayFormUploadPhotoModal(categoriesData) {
     // Événements pour validation de formulaire
     setupFormValidation(inputFile, inputTitle, selectCategory, submitButton);
 }
+function setupImagePreview(inputFile) {
+    const labelFile = inputFile.previousElementSibling;
 
+    inputFile.addEventListener("change", () => {
+        const file = inputFile.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = event => {
+
+                labelFile.innerHTML = "";
+                const previewImage = document.createElement("img");
+                previewImage.classList.add("image-preview");
+                previewImage.style.maxWidth = "420px";
+                previewImage.style.height = "169px";
+                previewImage.alt = "Aperçu de l'image";
+                previewImage.src = event.target.result;
+
+                labelFile.appendChild(previewImage);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Si aucun fichier n'est sélectionné, réinitialiser le contenu du label
+            labelFile.innerHTML = `
+                <i class="fa-regular fa-image"></i>
+                <p>+ Ajouter photo</p>
+                <small>jpg, png · 4mo max</small>
+            `;
+        }
+    });
+}
 function setupFormValidation(inputFile, inputTitle, selectCategory, submitButton) {
     // Active le bouton "Valider" si tous les champs sont remplis
     function validateForm() {

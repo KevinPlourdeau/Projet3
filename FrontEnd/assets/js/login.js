@@ -40,7 +40,7 @@ async function sendLoginFormToApi(email, password) {
         const data = await response.json();
         return { success: true, token: data.token, refreshToken: data.refreshToken };
     } else {
-        return { success: false, message: "Email ou mot de passe incorrect." };
+        return { success: false, message: "“Erreur dans l’identifiant ou le mot de passe”" };
     }
 }
 
@@ -153,7 +153,7 @@ async function mainLogin() {
                 console.log("Token rafraîchi avec succès !");
             } else {
                 console.log("Veuillez vous reconnecter.");
-                redirectLoginPage();  // Redirige vers la page de connexion si le refresh échoue
+                redirectLoginPage();
             }
         }
     } catch(error) {

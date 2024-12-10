@@ -73,46 +73,46 @@ function handleActiveFilterButtons() {
     });
 }
 
-{
-    // Filtre works en fonction de categories
-    function filterWorksByCategory(worksData, categoryId) {
-        if (categoryId === null) {
 
-            return worksData;
-        }
+// Filtre works en fonction de categories
+function filterWorksByCategory(worksData, categoryId) {
+    if (categoryId === null) {
 
-        return worksData.filter(work => work.categoryId === categoryId);
+        return worksData;
     }
-    // Filtres fonctionnels
-    function handleFilterClick(event, worksData) {
-        let categoryId = null;
 
-        if (event.target.dataset.categoryId) {
-            categoryId = parseInt(event.target.dataset.categoryId, 10);
-        }
-
-        const filteredWorks = filterWorksByCategory(worksData, categoryId);
-
-
-        clearGalleryHTML();
-
-        displayGallery(filteredWorks);
-    }
-    // EventListener boutons filtre
-    function addFilterEventListeners(worksData) {
-        const filterButtons = document.querySelectorAll('.filter-btn');
-
-        filterButtons.forEach(button => {
-            if (!button.hasEventListener) {
-                button.addEventListener("click", (event) => { 
-                    event.preventDefault();
-                    handleFilterClick(event, worksData)
-                });
-                button.hasEventListener = true; // Ajouter un attribut pour indiquer que l'événement est déjà ajouté.
-            }
-        });
-    }
+    return worksData.filter(work => work.categoryId === categoryId);
 }
+// Filtres fonctionnels
+function handleFilterClick(event, worksData) {
+    let categoryId = null;
+
+    if (event.target.dataset.categoryId) {
+        categoryId = parseInt(event.target.dataset.categoryId, 10);
+    }
+
+    const filteredWorks = filterWorksByCategory(worksData, categoryId);
+
+
+    clearGalleryHTML();
+
+    displayGallery(filteredWorks);
+}
+// EventListener boutons filtre
+function addFilterEventListeners(worksData) {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    filterButtons.forEach(button => {
+        if (!button.hasEventListener) {
+            button.addEventListener("click", (event) => { 
+                event.preventDefault();
+                handleFilterClick(event, worksData)
+            });
+            button.hasEventListener = true; // Ajouter un attribut pour indiquer que l'événement est déjà ajouté.
+        }
+    });
+}
+
 
 /**** Mode Edition ---> remove des filtres + Ajout d'une banniere haut de page, d'un bouton "modifie" la gallerie et du "logout" ******/
 // Change login en logout si token actif
@@ -124,23 +124,21 @@ function toggleLoginLogout() {
         loginButton.textContent = "Logout";
     }
 }
-{
-    // Fonction de déconnexion
-    function logout() {
-        localStorage.removeItem('token'); 
-        window.location.href = "login.html"; 
-    }
-    // Eventlistener pour la deconnexion
-    function LogoutEventListener() {
-        const loginButton = document.getElementById("login-btn");
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('token'); 
+    window.location.href = "login.html"; 
+}
+// Eventlistener pour la deconnexion
+function LogoutEventListener() {
+    const loginButton = document.getElementById("login-btn");
 
-        // Vérifie si le bouton est un bouton "Logout"
-        if (loginButton.textContent === "Logout") {
-            loginButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                logout();
-            });
-        }
+    // Vérifie si le bouton est un bouton "Logout"
+    if (loginButton.textContent === "Logout") {
+        loginButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            logout();
+        });
     }
 }
 
