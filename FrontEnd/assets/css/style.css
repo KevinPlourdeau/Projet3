@@ -559,3 +559,9 @@ figure {
 .btn-validate-form:disabled {
     background-color: #ccc; /* Couleur de fond grise */
 }
+
+.form-error-message {
+	margin-bottom: 8px;
+	color: red;
+	display: none;
+}

@@ -181,16 +181,6 @@ function hideCategoryFilters() {
 }
 
 
-/**** Fonction Refresh *****/
-// Utilisé dans modale.js initializeDeleteEvents(worksData)
-async function refresh() {
-    // Récupère les données "works" et met à jour la galerie
-    const worksData = await fetchWorks();
-    clearGalleryHTML();
-    displayGallery(worksData);
-}
-
-
 /**** Fonction Main *****/
 async function main() {
     try {
@@ -241,8 +231,6 @@ async function main() {
             // Gere l'etat actif de chaque boutons
             handleActiveFilterButtons()
         }
-
-        await refresh();
     } catch(error) {
         console.error('Erreur dans la fonction main:', error);
     }
