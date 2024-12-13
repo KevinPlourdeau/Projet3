@@ -55,6 +55,8 @@ function closeModal(modalElement) {
     modalElement.setAttribute("aria-hidden", "true");
     modalElement.removeAttribute("aria-modal");
 
+    resetModalView();
+
     modalElement.removeEventListener("click", () => closeModal(modalElement));
     modalElement.querySelector(".js-modal-close").removeEventListener("click", () => closeModal(modalElement));
     modalElement.querySelector(".js-modal-stop").removeEventListener("click", event => event.stopPropagation());
@@ -232,6 +234,7 @@ function displayFormUploadPhotoModal(categoriesData) {
     addPhotoView.appendChild(form);
 }
 
+// Permet d'afficher la prévisualisation de l'image 
 function setupImagePreview(inputFile) {
     const labelFile = inputFile.previousElementSibling;
 
@@ -261,6 +264,7 @@ function setupImagePreview(inputFile) {
     });
 }
 
+// Permet l'envoie du projet ( de form ) à l'api
 async function uploadPhoto() {
     const form = document.querySelector(".photo-upload-form");
     const submitButton = form.querySelector(".btn-validate-form");
@@ -278,11 +282,9 @@ async function uploadPhoto() {
         const inputTitle = document.getElementById("photo-title");
         const selectCategory = document.getElementById("photo-category");
 
-        // Réinitialiser le message d'erreur
         errorMessage.style.display = "none";
         errorMessage.textContent = "";
 
-        // Vérification de base
         if (!inputFile.files[0] || !inputTitle.value || !selectCategory.value) {
             errorMessage.textContent = "Veuillez remplir tous les champs !";
             errorMessage.style.display = "block";
@@ -307,11 +309,14 @@ async function uploadPhoto() {
                 const result = await response.json();
                 console.log("Photo ajoutée avec succès :", result);
                 alert("La photo a été ajoutée avec succès !");
-                form.reset();
                 errorMessage.style.display = "none";
 
-                // Actualiser la galerie
                 refreshGallery();
+
+                const modalElement = document.querySelector("#modal");
+                if (modalElement) {
+                    closeModal(modalElement);
+                }
             } else {
                 const errorData = await response.json();
                 console.error("Erreur lors de l'ajout de la photo :", response.status, errorData);
@@ -326,68 +331,14 @@ async function uploadPhoto() {
     });
 }
 
-/*function validateFormInput(inputFile, inputTitle, selectCategory) {
-    if (!inputFile.files[0] || !inputTitle.value || !selectCategory.value) {
-        errorMessage.textContent = "Veuillez remplir tous les champs !";
-        return;
-    }
-    return null;
-}*/
-
-/*function createErrorMessageContainer(form) {
-    let errorMessage = form.querySelector(".form-error-message");
-    if (!errorMessage) {
-        errorMessage = document.createElement("p");
-        errorMessage.classList.add("form-error-message");
-        errorMessage.style.color = "red";
-        errorMessage.style.marginBottom = "10px";
-        errorMessage.style.display = "none";
-        form.prepend(errorMessage);
-    }
-    return errorMessage;
-}*/
-
-function updateGallery(newWork) {
-    const gallery = document.querySelector(".gallery");
-    const newFigure = document.createElement("figure");
-    const newImage = document.createElement("img");
-    const newCaption = document.createElement("figcaption");
-
-    newImage.src = newWork.imageUrl;
-    newImage.alt = newWork.title;
-    newCaption.textContent = newWork.title;
-
-    newFigure.appendChild(newImage);
-    newFigure.appendChild(newCaption);
-    gallery.appendChild(newFigure);
-}
-
-function updateGalleryModal(newWork) {
-    const newgallery = document.querySelector(".js-modal-gallery .gallery")
-    const newFigure = document.createElement("figure");
-    const newImage = document.createElement("img");
-    const newDeleteIcon = document.createElement("button");
-
-    newImage.src = newWork.imageUrl;
-    newImage.alt = newWork.title;
-
-    newDeleteIcon.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
-    newDeleteIcon.classList.add("delete-icon");
-
-    newFigure.appendChild(newImage);
-    newFigure.appendChild(newDeleteIcon);
-    newgallery.appendChild(newFigure);
-}
-
 
 /**** Fonction Refresh *****/
+// Permet de rafraichir les deux galerie ( non modale et modale )
 async function refreshGallery() {
-    // Récupère les données "works" et met à jour la galerie
     const worksData = await fetchWorks();
     clearGalleryHTML();
     displayGallery(worksData);
 
-    // Rafraîchit la galerie de la modale
     const modalWrapper = document.querySelector(".js-modal-gallery");
     if (modalWrapper) {
             const existingGallery = modalWrapper.querySelector(".gallery");
@@ -398,10 +349,39 @@ async function refreshGallery() {
             const newGallery = displayGalleryModal(worksData);
             modalWrapper.insertBefore(newGallery, modalWrapper.querySelector("input[type='submit']"));
 
-            // Réinitialise les événements de suppression pour les nouveaux boutons
             initializeDeleteEvents(worksData);
     }
 }
+
+// Permet d'enlever l'image previsualiser
+function resetPreviewImage() {
+    const inputFile = document.getElementById("photo-file");
+    const labelFile = inputFile.previousElementSibling;
+
+    inputFile.value = "";
+
+    labelFile.innerHTML = `
+        <i class="fa-regular fa-image"></i>
+        <p>+ Ajouter photo</p>
+        <small>jpg, png · 4mo max</small>
+    `;
+}
+
+// Permet de remettre à zero le formulaire de la modale et de revenir sur la modale premiere vue lorsqu'on reouvre la modale
+function resetModalView() {
+    const galleryView = document.querySelector(".js-modal-gallery");
+    const addPhotoView = document.querySelector(".js-modal-add-photo");
+
+    if (galleryView) galleryView.style.display = "block";
+    if (addPhotoView) addPhotoView.style.display = "none";
+
+    const form = document.querySelector(".photo-upload-form");
+    if (form) form.reset();
+
+    resetPreviewImage();
+}
+
+
 
 /**** Fonction Main *****/
 async function mainModal() {
@@ -421,7 +401,6 @@ async function mainModal() {
             const categoriesData = await fetchCategories();
             displayFormUploadPhotoModal(categoriesData);
 
-            // Initialiser l'envoi de photo
             uploadPhoto();
         }
     } catch (error) {
