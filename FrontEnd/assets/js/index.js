@@ -1,7 +1,7 @@
 /**** Mode classique ---> Filtres + Gallerie *****/
 // Fonction API fetch pour récupérer les images dans le fichier "Works" 
 async function fetchWorks() {
-    const res = await fetch("http://localhost:5678/api/works");
+    const res = await fetch(apiUrlWorks);
     return await res.json();
 }
 
@@ -33,7 +33,7 @@ function clearGalleryHTML() {
 
 // Fonction API fetch pour récupérer les différentes categories dans le fichier "categories"
 async function fetchCategories() {
-    const res = await fetch("http://localhost:5678/api/categories");
+    const res = await fetch(apiUrlCategories);
     return await res.json();
 }
 

@@ -13,6 +13,7 @@ function initializeModalEvents() {
 // Gère la suppression des projets et refresh la galerie
 function initializeDeleteEvents(worksData) {
     const deleteButtons = document.querySelectorAll(".delete-icon");
+    
     deleteButtons.forEach((button, index) => {
         const workId = worksData[index].id;
         const figureElement = button.closest("figure");
@@ -297,7 +298,7 @@ async function uploadPhoto() {
         formData.append("category", selectCategory.value);
 
         try {
-            const response = await fetch("http://localhost:5678/api/works", {
+            const response = await fetch(apiUrlWorks, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,

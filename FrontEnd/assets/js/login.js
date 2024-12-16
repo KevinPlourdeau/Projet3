@@ -30,7 +30,7 @@ function validateForm(email, password) {
 
 // Envoie les données récuperé à l'API
 async function sendLoginFormToApi(email, password) {
-    const response = await fetch("http://localhost:5678/api/users/login", {
+    const response = await fetch(apiUrlLogin, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -53,7 +53,7 @@ async function refreshAccessToken() {
         return null;
     }
 
-    const response = await fetch("http://localhost:5678/api/users/login", {
+    const response = await fetch(apiUrlLogin, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
