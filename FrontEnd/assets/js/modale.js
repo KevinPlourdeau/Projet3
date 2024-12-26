@@ -21,6 +21,12 @@ function initializeDeleteEvents(worksData) {
             event.preventDefault();
             if (warnImgSupp()) {
                 handleDelete(workId, figureElement);
+
+
+                const updatedWorksData = worksData.filter(work => work.id !== workId);
+
+
+                localStorage.setItem('sharedDataWorks', JSON.stringify(updatedWorksData));
                 refreshGallery();
             }
         });
@@ -109,9 +115,16 @@ async function handleDelete(workId, figureElement) {
 
     if (response.ok) {
         figureElement.remove();
+        
         console.log(`L'image avec l'ID ${workId} a été supprimée.`);
+        alert("Le projet a été supprimé avec succés !!")
     } else {
-        console.error("Échec de la suppression de l'image :", response.statusText);
+        if (error.message.includes("Failed to fetch")) {
+            alert("Erreur : Impossible de contacter le serveur. Veuillez vérifier que le serveur est en cours d'exécution.");
+        } else {
+            alert("Une erreur inattendue s'est produite lors de la suppression.");
+        }
+        console.error("Erreur dans handleDelete :", error);
     }
 }
 
@@ -312,6 +325,8 @@ async function uploadPhoto() {
                 alert("La photo a été ajoutée avec succès !");
                 errorMessage.style.display = "none";
 
+                
+
                 refreshGallery();
 
                 const modalElement = document.querySelector("#modal");
@@ -321,23 +336,22 @@ async function uploadPhoto() {
             } else {
                 const errorData = await response.json();
                 console.error("Erreur lors de l'ajout de la photo :", response.status, errorData);
-                errorMessage.textContent = errorData.message || "Une erreur s'est produite, veuillez réessayer.";
-                errorMessage.style.display = "block";
             }
         } catch (error) {
             console.error("Erreur réseau :", error);
-            errorMessage.textContent = "Une erreur réseau s'est produite, veuillez vérifier votre connexion.";
-            errorMessage.style.display = "block";
         }
     });
 }
 
-
 /**** Fonction Refresh *****/
 // Permet de rafraichir les deux galerie ( non modale et modale )
 async function refreshGallery() {
-    const worksData = await fetchWorks();
+    await fetchWorks();
+    const worksData = getSharedData("sharedDataWorks");
+    console.log("test", worksData)
+
     clearGalleryHTML();
+
     displayGallery(worksData);
 
     const modalWrapper = document.querySelector(".js-modal-gallery");
@@ -390,7 +404,11 @@ async function mainModal() {
         initializeModalEvents();
         initializeKeyboardEvents();
 
-        const worksData = await fetchWorks();
+        
+        //const worksData = await fetchWorks();
+        //const worksData = getSharedDataWorks();
+        const worksData = getSharedData("sharedDataWorks")
+        console.log("worksData", worksData)
         const modalElement = document.querySelector("#modal");
 
         if (modalElement) {
@@ -399,13 +417,15 @@ async function mainModal() {
             initializeDeleteEvents(worksData);
             initializeViewSwitching();
 
-            const categoriesData = await fetchCategories();
+            //const categoriesData = getSharedDataCategories();
+            const categoriesData = getSharedData("sharedDataCategories");
+            //const categoriesData = await fetchCategories();
             displayFormUploadPhotoModal(categoriesData);
 
             uploadPhoto();
         }
     } catch (error) {
-        console.error("Erreur dans la fonction mainModal :", error);
+        console.error("Erreur dans la fonction mainModal :", error); 
     }
 }
 

@@ -1,12 +1,33 @@
 /**** Mode classique ---> Filtres + Gallerie *****/
 // Fonction API fetch pour récupérer les images dans le fichier "Works" 
 async function fetchWorks() {
-    const res = await fetch(apiUrlWorks);
-    return await res.json();
+    try{
+        const res = await fetch(apiUrlWorks);
+        const worksData = await res.json();
+
+        console.log("fetchWorks", worksData)
+        localStorage.setItem('sharedDataWorks', JSON.stringify(worksData));
+    } catch {
+        console.error("test error");
+    }
+    
+    
+}
+function getSharedData(nom) {
+    const cachedData = localStorage.getItem(nom);
+    return cachedData ? JSON.parse(cachedData) : [];
+}
+// Fonction API fetch pour récupérer les différentes categories dans le fichier "categories"
+async function fetchCategories() {
+        const res = await fetch(apiUrlCategories);
+        const categoriesData = await res.json();
+
+        localStorage.setItem('sharedDataCategories', JSON.stringify(categoriesData));
 }
 
 // Affiche la gallerie se trouvant sur l'Api Url "/works"
 function displayGallery(worksData) {
+    //const worksData = getSharedData("sharedDataWorks")
     const galleryContainer = document.querySelector('.gallery');
 
     worksData.forEach(work => {
@@ -28,13 +49,6 @@ function displayGallery(worksData) {
 function clearGalleryHTML() {
     const galleryHTML = document.querySelector(".gallery")
     galleryHTML.innerHTML = ""
-}
-
-
-// Fonction API fetch pour récupérer les différentes categories dans le fichier "categories"
-async function fetchCategories() {
-    const res = await fetch(apiUrlCategories);
-    return await res.json();
 }
 
 // Affiche les différents filtres se trouvant sur l'Api Url "/categories"
@@ -195,7 +209,8 @@ async function main() {
         LogoutEventListener()
 
         // Recupere les donnees "works"
-        const worksData = await fetchWorks();
+        await fetchWorks()
+        const worksData = getSharedData("sharedDataWorks");
 
         // Efface le contenu HTML dans la galerie
         clearGalleryHTML();
@@ -204,7 +219,8 @@ async function main() {
         displayGallery(worksData);
 
         // Recupere les categories
-        const categoriesData = await fetchCategories();
+        await fetchCategories();
+        const categoriesData = getSharedData("sharedDataCategories");
 
         if(token) {
             // Si un token est présent, masque les filtres
@@ -233,6 +249,11 @@ async function main() {
         }
     } catch(error) {
         console.error('Erreur dans la fonction main:', error);
+        if (error.message.includes("Failed to fetch")) {
+            alert("Erreur : Impossible de contacter le serveur. Veuillez vérifier votre connexion ou réessayer plus tard.");
+        } else {
+            alert("Erreur inattendue. Veuillez réessayer.");
+        }
     }
 }
 
